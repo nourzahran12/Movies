@@ -17,14 +17,28 @@ class DefaulteBotton extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: colorBotton,
-        foregroundColor: textColor,
-        side: BorderSide(color: AppTheme.primary, width: border),
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: colorBotton,
+          foregroundColor: textColor,
+          side: BorderSide(color: AppTheme.primary, width: border),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+        ),
+        onPressed: onPressed,
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 16),
+          child: Text(
+            text,
+            style: TextTheme.of(
+              context,
+            ).titleMedium!.copyWith(color: textColor, fontWeight: .w600),
+          ),
+        ),
       ),
-      onPressed: onPressed,
-      child: Text(text, style: TextTheme.of(context).titleMedium),
     );
   }
 }
