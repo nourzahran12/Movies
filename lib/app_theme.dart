@@ -19,7 +19,7 @@ class AppTheme {
       centerTitle: true,
       titleTextStyle: TextStyle(
         fontSize: 16,
-        fontWeight: .w400,
+        fontWeight: FontWeight.w400,
         color: primary,
       ),
     ),
@@ -31,11 +31,31 @@ class AppTheme {
       showUnselectedLabels: false,
     ),
     textTheme: TextTheme(
-      headlineSmall: TextStyle(fontSize: 36, fontWeight: .w500, color: white),
-      titleLarge: TextStyle(fontSize: 24, fontWeight: .w700, color: white),
-      titleMedium: TextStyle(fontSize: 20, fontWeight: .w400, color: white),
-      titleSmall: TextStyle(fontSize: 16, fontWeight: .w400, color: black),
-      labelLarge: TextStyle(fontSize: 14, fontWeight: .w900, color: white),
+      headlineSmall: TextStyle(
+        fontSize: 36,
+        fontWeight: FontWeight.w500,
+        color: white,
+      ),
+      titleLarge: TextStyle(
+        fontSize: 24,
+        fontWeight: FontWeight.w700,
+        color: white,
+      ),
+      titleMedium: TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.w400,
+        color: white,
+      ),
+      titleSmall: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w400,
+        color: black,
+      ),
+      labelLarge: TextStyle(
+        fontSize: 14,
+        fontWeight: FontWeight.w900,
+        color: white,
+      ),
     ),
   );
 }
