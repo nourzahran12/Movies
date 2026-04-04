@@ -23,7 +23,9 @@ class DefaulteBotton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: colorBotton,
           foregroundColor: textColor,
-          side: BorderSide(color: AppTheme.primary, width: border),
+          side: border == 0
+              ? null
+              : BorderSide(color: AppTheme.primary, width: border),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
