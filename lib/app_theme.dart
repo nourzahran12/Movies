@@ -5,6 +5,7 @@ class AppTheme {
   static const Color black = Color(0xFF121312);
   static const Color white = Color(0xFFFFFFFF);
   static const Color gray = Color(0xFF282A28);
+  static const Color lightgray = Color(0xFFADADAD);
   static const Color darkGray = Color(0xFF212121);
   static const Color red = Color(0xFFE82626);
 
@@ -31,11 +32,31 @@ class AppTheme {
       showUnselectedLabels: false,
     ),
     textTheme: TextTheme(
-      headlineSmall: TextStyle(fontSize: 36, fontWeight: FontWeight.w500, color: white),
-      titleLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.w700, color: white),
-      titleMedium: TextStyle(fontSize: 20, fontWeight: FontWeight.w400, color: white),
-      titleSmall: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: black),
-      labelLarge: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: white),
+      headlineSmall: TextStyle(
+        fontSize: 36,
+        fontWeight: FontWeight.w500,
+        color: white,
+      ),
+      titleLarge: TextStyle(
+        fontSize: 24,
+        fontWeight: FontWeight.w700,
+        color: white,
+      ),
+      titleMedium: TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.w400,
+        color: white,
+      ),
+      titleSmall: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w400,
+        color: black,
+      ),
+      labelLarge: TextStyle(
+        fontSize: 14,
+        fontWeight: FontWeight.w900,
+        color: white,
+      ),
     ),
   );
 }
