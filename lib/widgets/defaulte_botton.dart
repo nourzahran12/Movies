@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:movies/app_theme.dart';
 
 class DefaulteBotton extends StatelessWidget {
@@ -7,6 +8,7 @@ class DefaulteBotton extends StatelessWidget {
   Color colorBotton;
   double border;
   VoidCallback onPressed;
+  String? iconName;
 
   DefaulteBotton({
     required this.text,
@@ -14,7 +16,9 @@ class DefaulteBotton extends StatelessWidget {
     this.textColor = AppTheme.black,
     this.colorBotton = AppTheme.primary,
     this.border = 0,
+    this.iconName,
   });
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -31,15 +35,37 @@ class DefaulteBotton extends StatelessWidget {
           ),
         ),
         onPressed: onPressed,
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 16),
-          child: Text(
-            text,
-            style: TextTheme.of(
-              context,
-            ).titleMedium!.copyWith(color: textColor, fontWeight: .w600),
-          ),
-        ),
+        child: iconName == null
+            ? Padding(
+                padding: EdgeInsets.symmetric(vertical: 14),
+                child: Text(
+                  text,
+                  style: TextTheme.of(
+                    context,
+                  ).titleMedium!.copyWith(color: textColor, fontWeight: .w400),
+                ),
+              )
+            : Row(
+                mainAxisAlignment: .center,
+                children: [
+                  SvgPicture.asset(
+                    'assets/icons/$iconName.svg',
+                    width: 32,
+                    height: 32,
+                  ),
+                  SizedBox(width: 10),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    child: Text(
+                      text,
+                      style: TextTheme.of(context).titleMedium!.copyWith(
+                        color: textColor,
+                        fontWeight: .w400,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
       ),
     );
   }

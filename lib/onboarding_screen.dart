@@ -34,7 +34,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   int index = 0;
 
   void nextPage() {
-    if (index == 5) return;
+    if (index == 5) {
+      Navigator.pushReplacementNamed(context, '/login');
+      return;
+    }
     index++;
     setState(() {});
   }

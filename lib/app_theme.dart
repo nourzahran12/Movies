@@ -31,6 +31,28 @@ class AppTheme {
       type: BottomNavigationBarType.fixed,
       showUnselectedLabels: false,
     ),
+    inputDecorationTheme: InputDecorationThemeData(
+      filled: true,
+      fillColor: AppTheme.gray,
+
+      hintStyle: TextStyle(fontSize: 16, fontWeight: .w400, color: white),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(15),
+        borderSide: BorderSide(color: gray),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(15),
+        borderSide: BorderSide(color: gray),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(15),
+        borderSide: BorderSide(color: Colors.red),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(15),
+        borderSide: BorderSide(color: Colors.red),
+      ),
+    ),
     textTheme: TextTheme(
       headlineSmall: TextStyle(fontSize: 36, fontWeight: .w500, color: white),
       titleLarge: TextStyle(fontSize: 24, fontWeight: .w700, color: white),
@@ -38,5 +60,6 @@ class AppTheme {
       titleSmall: TextStyle(fontSize: 16, fontWeight: .w400, color: black),
       labelLarge: TextStyle(fontSize: 14, fontWeight: .w900, color: white),
     ),
+
   );
 }

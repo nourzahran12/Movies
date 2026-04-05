@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:movies/app_theme.dart';
-import 'package:movies/widgets/build_Info.dart';
+import 'package:movies/widgets/movie_stat_chip.dart';
 import 'package:movies/widgets/cast_item.dart';
 import 'package:movies/widgets/defaulte_botton.dart';
 import 'package:movies/widgets/genre_item.dart';
