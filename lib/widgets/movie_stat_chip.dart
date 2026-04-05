@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:movies/app_theme.dart';
 
-class BuildInfo extends StatelessWidget {
+class MovieStatChip extends StatelessWidget {
   Widget icon;
   String text;
 
-  BuildInfo({required this.icon, required this.text});
+  MovieStatChip({required this.icon, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +16,7 @@ class BuildInfo extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           icon,
           SizedBox(width: 5),

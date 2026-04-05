@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:movies/app_theme.dart';
-import 'package:movies/widgets/build_Info.dart';
+import 'package:movies/widgets/movie_stat_chip.dart';
 import 'package:movies/widgets/cast_item.dart';
 import 'package:movies/widgets/defaulte_botton.dart';
 import 'package:movies/widgets/genre_item.dart';
@@ -48,6 +48,32 @@ class MoviesDetailsScreen extends StatelessWidget {
                   ),
                 ),
                 Positioned(
+                  top: 40,
+                  left: 16,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: SvgPicture.asset(
+                      'assets/icons/back.svg',
+                      width: 17,
+                      height: 29,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 40,
+                  right: 16,
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: SvgPicture.asset(
+                      'assets/icons/save.svg',
+                      width: 20,
+                      height: 30,
+                    ),
+                  ),
+                ),
+                Positioned(
                   bottom: 25,
                   left: 16,
                   right: 16,
@@ -86,26 +112,34 @@ class MoviesDetailsScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      BuildInfo(
-                        icon: SvgPicture.asset(
-                          'assets/icons/heart.svg',
-                          width: 18,
+                      Expanded(
+                        child: MovieStatChip(
+                          icon: SvgPicture.asset(
+                            'assets/icons/heart.svg',
+                            width: 18,
+                          ),
+                          text: '15',
                         ),
-                        text: '15',
                       ),
-                      BuildInfo(
-                        icon: SvgPicture.asset(
-                          'assets/icons/time.svg',
-                          width: 18,
+                      SizedBox(width: 16),
+                      Expanded(
+                        child: MovieStatChip(
+                          icon: SvgPicture.asset(
+                            'assets/icons/time.svg',
+                            width: 18,
+                          ),
+                          text: '90',
                         ),
-                        text: '90',
                       ),
-                      BuildInfo(
-                        icon: SvgPicture.asset(
-                          'assets/icons/star.svg',
-                          width: 18,
+                      SizedBox(width: 16),
+                      Expanded(
+                        child: MovieStatChip(
+                          icon: SvgPicture.asset(
+                            'assets/icons/star.svg',
+                            width: 18,
+                          ),
+                          text: '7.6',
                         ),
-                        text: '7.6',
                       ),
                     ],
                   ),
@@ -127,9 +161,11 @@ class MoviesDetailsScreen extends StatelessWidget {
 
                   SizedBox(height: 16),
                   Text("Similar", style: textTheme.titleLarge),
+                  SizedBox(height: 16),
                   GridView.count(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
+                    padding: EdgeInsets.zero,
                     crossAxisCount: 2,
                     crossAxisSpacing: 20,
                     mainAxisSpacing: 16,
@@ -138,18 +174,22 @@ class MoviesDetailsScreen extends StatelessWidget {
                       SimilarItem(
                         url:
                             "https://image.tmdb.org/t/p/w500/qAZ0pzat24kLdO3o8ejmbLxyOac.jpg",
+                        rate: '7.7',
                       ),
                       SimilarItem(
                         url:
                             "https://image.tmdb.org/t/p/w500/qAZ0pzat24kLdO3o8ejmbLxyOac.jpg",
+                        rate: '7.7',
                       ),
                       SimilarItem(
                         url:
                             "https://image.tmdb.org/t/p/w500/qAZ0pzat24kLdO3o8ejmbLxyOac.jpg",
+                        rate: '7.7',
                       ),
                       SimilarItem(
                         url:
                             "https://image.tmdb.org/t/p/w500/qAZ0pzat24kLdO3o8ejmbLxyOac.jpg",
+                        rate: '7.7',
                       ),
                     ],
                   ),
@@ -166,6 +206,31 @@ class MoviesDetailsScreen extends StatelessWidget {
                   SizedBox(height: 20),
 
                   Text("Cast", style: textTheme.titleLarge),
+                  SizedBox(height: 15),
+                  CastItem(
+                    img:
+                        "https://image.tmdb.org/t/p/w500/8YFL5QQVPy3AgrEQxNYVSgiPEbe.jpg",
+                    name: "Hayley Atwell",
+                    character: "Captain Carter",
+                  ),
+                  CastItem(
+                    img:
+                        "https://image.tmdb.org/t/p/w500/8YFL5QQVPy3AgrEQxNYVSgiPEbe.jpg",
+                    name: "Hayley Atwell",
+                    character: "Captain Carter",
+                  ),
+                  CastItem(
+                    img:
+                        "https://image.tmdb.org/t/p/w500/8YFL5QQVPy3AgrEQxNYVSgiPEbe.jpg",
+                    name: "Hayley Atwell",
+                    character: "Captain Carter",
+                  ),
+                  CastItem(
+                    img:
+                        "https://image.tmdb.org/t/p/w500/8YFL5QQVPy3AgrEQxNYVSgiPEbe.jpg",
+                    name: "Hayley Atwell",
+                    character: "Captain Carter",
+                  ),
                   SizedBox(height: 10),
                   CastItem(
                     img:
