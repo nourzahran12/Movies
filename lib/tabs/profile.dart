@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
-class Browse extends StatelessWidget {
+class Profile extends StatelessWidget {
+
 
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text('Browse'),
+      child: Text('Profile'),
     );
   }
 }

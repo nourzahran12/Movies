@@ -63,7 +63,7 @@ class MoviesDetailsScreen extends StatelessWidget {
                         "2022",
                         style: textTheme.titleMedium!.copyWith(
                           color: AppTheme.lightgray,
-                          fontWeight: .w700,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                     ],
