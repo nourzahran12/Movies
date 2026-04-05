@@ -3,26 +3,25 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movies/app_theme.dart';
 import 'package:movies/tabs/browse.dart';
 import 'package:movies/tabs/home.dart';
+import 'package:movies/tabs/profile.dart';
 import 'package:movies/tabs/search.dart';
 
 class Home extends StatefulWidget {
+  static const String routeName = '/home';
   @override
   State<Home> createState() => _HomeState();
 }
+
 class _HomeState extends State<Home> {
   int curruntIndex = 0;
-  final List<Widget>Taps=[
-    HomeTab(),
-    Search(),
-    Browse(),
-    
-  ];
+  final List<Widget> tabs = [HomeTab(), Search(), Browse(), Profile()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      body: HomeTab(),
       backgroundColor: AppTheme.black,
       bottomNavigationBar: BottomNavigationBar(
-          currentIndex: curruntIndex,
+        currentIndex: curruntIndex,
         onTap: (index) {
           curruntIndex = index;
           setState(() {});
@@ -31,18 +30,22 @@ class _HomeState extends State<Home> {
           BottomNavigationBarItem(
             icon: SvgPicture.asset('assetsicons/home.svg'),
             activeIcon: SvgPicture.asset('assets/icons/home-Filled.svg'),
+            label: '',
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset('assets/icons/seach.svg'),
             activeIcon: SvgPicture.asset('assets/icons/seach-filled.svg'),
+            label: '',
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset('assets/icons/explore.svg'),
             activeIcon: SvgPicture.asset('assets/icons/explore-filled.svg'),
+            label: '',
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset('assets/icons/Profile.svg'),
             activeIcon: SvgPicture.asset('assets/icons/Profile-filled.svg'),
+            label: '',
           ),
         ],
       ),
