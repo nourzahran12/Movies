@@ -98,13 +98,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   DefaulteBotton(
                     text: index == 0
                         ? 'Explore Now'
-                        : index == 4
+                        : index == 5
                         ? 'Finish'
                         : 'Next',
                     onPressed: nextPage,
                   ),
                   SizedBox(height: 16),
                   index == 0
+                      ? SizedBox()
+                      : index == 1
                       ? SizedBox()
                       : DefaulteBotton(
                           text: 'Back',

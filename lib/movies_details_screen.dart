@@ -185,7 +185,7 @@ class MoviesDetailsScreen extends StatelessWidget {
                     name: "Hayley Atwell",
                     character: "Captain Carter",
                   ),
-
+                  SizedBox(height: 16),
                   Text("Genres", style: textTheme.titleLarge),
                   SizedBox(height: 10),
                   Wrap(
@@ -199,6 +199,7 @@ class MoviesDetailsScreen extends StatelessWidget {
                       GenreItem(text: "Horror"),
                     ],
                   ),
+                  SizedBox(height: 20),
                 ],
               ),
             ),
