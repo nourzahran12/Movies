@@ -27,9 +27,11 @@ class AppTheme {
     scaffoldBackgroundColor: black,
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: gray,
-      selectedItemColor: white,
+      selectedItemColor: primary,
+      unselectedItemColor: white,
       type: BottomNavigationBarType.fixed,
       showUnselectedLabels: false,
+      showSelectedLabels: false,
     ),
     inputDecorationTheme: InputDecorationThemeData(
       filled: true,
@@ -80,6 +82,5 @@ class AppTheme {
         color: white,
       ),
     ),
-
   );
 }

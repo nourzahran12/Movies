@@ -8,7 +8,8 @@ class DefaulteBotton extends StatelessWidget {
   Color colorBotton;
   double border;
   VoidCallback onPressed;
-  String? iconName;
+  String? prefixIconImageName;
+  String? suffixIconImageName;
 
   DefaulteBotton({
     required this.text,
@@ -16,7 +17,8 @@ class DefaulteBotton extends StatelessWidget {
     this.textColor = AppTheme.black,
     this.colorBotton = AppTheme.primary,
     this.border = 0,
-    this.iconName,
+    this.prefixIconImageName,
+    this.suffixIconImageName,
   });
 
   @override
@@ -35,37 +37,36 @@ class DefaulteBotton extends StatelessWidget {
           ),
         ),
         onPressed: onPressed,
-        child: iconName == null
-            ? Padding(
-                padding: EdgeInsets.symmetric(vertical: 14),
-                child: Text(
-                  text,
-                  style: TextTheme.of(
-                    context,
-                  ).titleMedium!.copyWith(color: textColor, fontWeight: .w400),
-                ),
-              )
-            : Row(
-                mainAxisAlignment: .center,
-                children: [
-                  SvgPicture.asset(
-                    'assets/icons/$iconName.svg',
-                    width: 32,
-                    height: 32,
+        child: Row(
+          mainAxisAlignment: .center,
+          children: [
+            prefixIconImageName == null
+                ? SizedBox()
+                : SvgPicture.asset(
+                    'assets/icons/$prefixIconImageName.svg',
+                    width: 10,
+                    height: 20,
                   ),
-                  SizedBox(width: 10),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    child: Text(
-                      text,
-                      style: TextTheme.of(context).titleMedium!.copyWith(
-                        color: textColor,
-                        fontWeight: .w400,
-                      ),
-                    ),
-                  ),
-                ],
+            SizedBox(width: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              child: Text(
+                text,
+                style: TextTheme.of(
+                  context,
+                ).titleMedium!.copyWith(color: textColor, fontWeight: .w400),
               ),
+            ),
+            SizedBox(width: 10),
+            suffixIconImageName == null
+                ? SizedBox()
+                : SvgPicture.asset(
+                    'assets/icons/$suffixIconImageName.svg',
+                    width: 10,
+                    height: 20,
+                  ),
+          ],
+        ),
       ),
     );
   }

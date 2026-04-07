@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movies/app_theme.dart';
-import 'package:movies/tabs/browse.dart';
-import 'package:movies/tabs/home.dart';
-import 'package:movies/tabs/profile.dart';
-import 'package:movies/tabs/search.dart';
+import 'package:movies/tabs/browse/browse_tab.dart';
+import 'package:movies/tabs/home/home_tab.dart';
+import 'package:movies/tabs/profile/profile_tab.dart';
+import 'package:movies/tabs/search/search_tab.dart';
 
-class Home extends StatefulWidget {
-  static const String routeName = '/home';
+class HomeScreen extends StatefulWidget {
+  static const String routeName = '/homeScreen';
   @override
-  State<Home> createState() => _HomeState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeScreenState extends State<HomeScreen> {
   int curruntIndex = 0;
-  final List<Widget> tabs = [HomeTab(), Search(), Browse(), Profile()];
+  final List<Widget> tabs = [HomeTab(), SearchTab(), BrowseTab(), ProfileTab()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: HomeTab(),
+      body: tabs[curruntIndex],
       backgroundColor: AppTheme.black,
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: curruntIndex,
@@ -28,7 +28,7 @@ class _HomeState extends State<Home> {
         },
         items: [
           BottomNavigationBarItem(
-            icon: SvgPicture.asset('assetsicons/home.svg'),
+            icon: SvgPicture.asset('assets/icons/home.svg'),
             activeIcon: SvgPicture.asset('assets/icons/home-Filled.svg'),
             label: '',
           ),

@@ -120,7 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 DefaulteBotton(
                   text: 'Login With Google',
                   onPressed: () {},
-                  iconName: 'google',
+                  prefixIconImageName: 'google',
                 ),
                 SizedBox(height: 28),
                 LanguageSwitcher(
