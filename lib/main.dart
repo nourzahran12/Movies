@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:movies/app_theme.dart';
 import 'package:movies/auth/forgot_password_screen.dart';
@@ -7,7 +8,9 @@ import 'package:movies/home_screen.dart';
 import 'package:movies/movies_details_screen.dart';
 import 'package:movies/onboarding_screen.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -24,7 +27,7 @@ class MyApp extends StatelessWidget {
         OnboardingScreen.routeName: (_) => OnboardingScreen(),
         MoviesDetailsScreen.routeName: (_) => MoviesDetailsScreen(),
       },
-      initialRoute: HomeScreen.routeName,
+      initialRoute: OnboardingScreen.routeName,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.dark,
