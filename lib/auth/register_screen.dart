@@ -4,7 +4,9 @@ import 'package:movies/firebase_service.dart';
 import 'package:movies/home_screen.dart';
 import 'package:movies/widgets/avatar_picker.dart';
 import 'package:movies/widgets/defaulte_botton.dart';
+import 'package:provider/provider.dart';
 
+import '../providers/user_provider.dart';
 import '../widgets/default_text_form_field.dart';
 import '../widgets/language_switcher.dart';
 
@@ -169,6 +171,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
         password: passwordController.text,
         avatar: selectedAvatar,
       ).then((user) {
+        Provider.of<UserProvider>(
+          context,
+          listen: false,
+        ).updateCurrentUser(user);
         Navigator.pushReplacementNamed(context, HomeScreen.routeName);
       });
     }
