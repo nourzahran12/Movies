@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:movies/app_theme.dart';
 import 'package:movies/tabs/profile/profile_header.dart';
 import 'package:movies/tabs/profile/profile_tabs.dart';
-import 'package:movies/widgets/defaulte_botton.dart';
 
 class ProfileTab extends StatefulWidget {
   @override
@@ -11,6 +10,7 @@ class ProfileTab extends StatefulWidget {
 
 class _ProfileTabState extends State<ProfileTab> {
   int selectedTab = 0;
+
   @override
   Widget build(BuildContext context) {
     TextTheme textTheme = TextTheme.of(context);

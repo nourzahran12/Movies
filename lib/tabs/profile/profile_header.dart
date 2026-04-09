@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:movies/app_theme.dart';
+import 'package:movies/firebase_service.dart';
+import 'package:movies/model/user_model.dart';
 import 'package:movies/widgets/defaulte_botton.dart';
+import 'package:provider/provider.dart';
+
+import '../../auth/login_screen.dart';
+import '../../providers/user_provider.dart';
 
 class ProfileHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    UserModel currentUser = Provider.of<UserProvider>(context).currentUser!;
     TextTheme textTheme = TextTheme.of(context);
     return Container(
       padding: EdgeInsets.all(16),
@@ -17,7 +24,7 @@ class ProfileHeader extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 50,
-                backgroundImage: AssetImage('assets/images/profile_image.png'),
+                backgroundImage: AssetImage(currentUser.avatar),
               ),
               Column(
                 children: [
@@ -37,7 +44,7 @@ class ProfileHeader extends StatelessWidget {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              "John Safwat",
+              currentUser.name,
               style: textTheme.titleMedium!.copyWith(fontWeight: .w700),
             ),
           ),
@@ -56,7 +63,12 @@ class ProfileHeader extends StatelessWidget {
                   textColor: AppTheme.white,
                   suffixIconImageName: 'exit',
                   colorBotton: AppTheme.red,
-                  onPressed: () {},
+                  onPressed: () => FirebaseService.logout().then((_) {
+                    Navigator.pushReplacementNamed(
+                      context,
+                      LoginScreen.routeName,
+                    );
+                  }),
                 ),
               ),
             ],

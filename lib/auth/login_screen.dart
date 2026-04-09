@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:movies/app_theme.dart';
+import 'package:movies/firebase_service.dart';
 import 'package:movies/widgets/default_text_form_field.dart';
+import 'package:provider/provider.dart';
 
+import '../home_screen.dart';
+import '../providers/user_provider.dart';
 import '../widgets/defaulte_botton.dart';
 import '../widgets/detault_text_botton.dart';
 import '../widgets/language_switcher.dart';
@@ -139,6 +143,17 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void login() {
-    if (formKey.currentState!.validate()) {}
+    if (formKey.currentState!.validate()) {
+      FirebaseService.login(
+        email: emailController.text,
+        password: passwordController.text,
+      ).then((user) {
+        Provider.of<UserProvider>(
+          context,
+          listen: false,
+        ).updateCurrentUser(user);
+        Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+      });
+    }
   }
 }
