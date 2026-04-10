@@ -9,6 +9,7 @@ import 'package:movies/onboarding_screen.dart';
 import 'package:movies/providers/watch_history_provider.dart';
 import 'package:movies/providers/movies_details_provider.dart';
 import 'package:movies/providers/user_provider.dart';
+import 'package:movies/tabs/profile/edit_profile.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
         RegisterScreen.routeName: (_) => RegisterScreen(),
         LoginScreen.routeName: (_) => LoginScreen(),
         OnboardingScreen.routeName: (_) => OnboardingScreen(),
+        EditProfile.routeName: (_) => EditProfile(),
       },
       initialRoute: showOnboarding
           ? OnboardingScreen.routeName
