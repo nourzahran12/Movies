@@ -3,13 +3,15 @@ import 'package:flutter_svg/svg.dart';
 import 'package:movies/api/api_service.dart';
 import 'package:movies/app_theme.dart';
 import 'package:movies/model/movie_model.dart';
-import 'package:movies/widgets/loading_indicator.dart';
+import 'package:movies/providers/History%20Provider.dart';
+import 'package:movies/providers/Movies%20Details%20Provider.dart';
 import 'package:movies/widgets/movie_stat_chip.dart';
 import 'package:movies/widgets/cast_item.dart';
 import 'package:movies/widgets/defaulte_botton.dart';
 import 'package:movies/widgets/genre_item.dart';
 import 'package:movies/widgets/screenshot_Item.dart';
 import 'package:movies/widgets/similar_item.dart';
+import 'package:provider/provider.dart';
 
 class MoviesDetailsScreen extends StatefulWidget {
   static const String routeName = '/MoviesDetailsScreen';
@@ -24,7 +26,6 @@ class MoviesDetailsScreen extends StatefulWidget {
 class _MoviesDetailsScreenState extends State<MoviesDetailsScreen> {
   late Future<Movie> movieDetailsFuture;
   late Future<List<Movie>> similarMoviesFuture;
-  bool isSaved = false;
 
   @override
   void initState() {
@@ -37,14 +38,18 @@ class _MoviesDetailsScreenState extends State<MoviesDetailsScreen> {
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
     double screenHeight = MediaQuery.sizeOf(context).height;
+    final favouriteMovie = Provider.of<MovieDetails>(context);
 
     return Scaffold(
       backgroundColor: AppTheme.black,
       body: FutureBuilder<Movie>(
         future: movieDetailsFuture,
         builder: (context, snapshot) {
+
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: LoadingIndicator());
+            return const Center(
+              child: CircularProgressIndicator(color: AppTheme.primary),
+            );
           }
           if (snapshot.hasError || !snapshot.hasData) {
             return const Center(
@@ -68,6 +73,7 @@ class _MoviesDetailsScreenState extends State<MoviesDetailsScreen> {
                       height: screenHeight * 0.69,
                       width: double.infinity,
                       fit: BoxFit.cover,
+                      // إضافة معالج الأخطاء هنا
                       errorBuilder: (context, error, stackTrace) {
                         return Container(
                           height: screenHeight * 0.69,
@@ -77,15 +83,15 @@ class _MoviesDetailsScreenState extends State<MoviesDetailsScreen> {
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
                               colors: [
-                                AppTheme.darkGray,
-                                AppTheme.black, //
+                                Colors.grey[900]!, // لون داكن من الأعلى
+                                AppTheme.black, // يندمج مع الخلفية السوداء
                               ],
                             ),
                           ),
                           child: const Center(
                             child: Icon(
                               Icons.broken_image_outlined,
-                              color: AppTheme.lightgray,
+                              color: Colors.white24,
                               size: 60,
                             ),
                           ),
@@ -106,7 +112,7 @@ class _MoviesDetailsScreenState extends State<MoviesDetailsScreen> {
                       child: Center(
                         child: CircleAvatar(
                           radius: 50,
-                          backgroundColor: AppTheme.black,
+                          backgroundColor: Colors.black26,
                           child: Image.asset('assets/images/play.png'),
                         ),
                       ),
@@ -114,8 +120,10 @@ class _MoviesDetailsScreenState extends State<MoviesDetailsScreen> {
                     Positioned(
                       top: 40,
                       left: 16,
-                      child: GestureDetector(
-                        onTap: () => Navigator.pop(context),
+                      child: InkWell(
+                        onTap: (){
+                          Navigator.pop(context);
+                        },
                         child: SvgPicture.asset(
                           'assets/icons/back.svg',
                           width: 17,
@@ -126,21 +134,28 @@ class _MoviesDetailsScreenState extends State<MoviesDetailsScreen> {
                     Positioned(
                       top: 40,
                       right: 16,
-                      child: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isSaved = !isSaved;
-                          });
+                      child: Consumer<MovieDetails>(
+                        builder: (context, favouriteMovie, child) {
+                          final isFav = favouriteMovie.isFavourite(movie.id);
+
+                          return InkWell(
+                            onTap: () {
+                              favouriteMovie.addToFavourites(
+                                movie.id,
+                                movie.largeCoverImage,
+                                movie.rating,
+                              );
+                            },
+                            child: SvgPicture.asset(
+                              'assets/icons/save.svg',
+                              width: 20,
+                              height: 30,
+
+                              /// 🔥 اللون بيتغير هنا
+                              color: isFav ? Colors.green : Colors.white,
+                            ),
+                          );
                         },
-                        child: SvgPicture.asset(
-                          'assets/icons/save.svg',
-                          width: 20,
-                          height: 30,
-                          colorFilter: ColorFilter.mode(
-                            isSaved ? AppTheme.primary : AppTheme.white,
-                            BlendMode.srcIn,
-                          ),
-                        ),
                       ),
                     ),
                     Positioned(
@@ -172,12 +187,26 @@ class _MoviesDetailsScreenState extends State<MoviesDetailsScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      DefaulteBotton(
-                        text: 'Watch',
-                        onPressed: () {},
-                        colorBotton: AppTheme.red,
-                        textColor: AppTheme.white,
+                      Consumer<WatchHistory>(
+                        builder: (context, favouriteMovie, child) {
+                          final isFav = favouriteMovie.isFavourite(movie.id);
+
+                          return DefaulteBotton(
+                            text: 'Watch',
+                            onPressed: () {
+                              favouriteMovie.addToFavourites(
+                                movie.id,
+                                movie.largeCoverImage,
+                                movie.rating,
+                              );
+
+                            },
+                            colorBotton: isFav ? AppTheme.green:AppTheme.red,
+                            textColor: AppTheme.white,
+                          );
+                        },
                       ),
+
                       const SizedBox(height: 16),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,

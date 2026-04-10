@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:movies/app_theme.dart';
 import 'package:movies/auth/auth_service.dart';
+import 'package:movies/tabs/profile/profile_tab.dart';
+import 'package:movies/tabs/profile/wishlistTabs.dart';
 import 'package:movies/widgets/defaulte_botton.dart';
 import 'package:provider/provider.dart';
 
 import '../../auth/login_screen.dart';
+import '../../providers/History Provider.dart';
+import '../../providers/Movies Details Provider.dart';
 import '../../providers/user_provider.dart';
 import '../../ui_utils.dart';
 
@@ -12,6 +16,10 @@ class ProfileHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
+    final favouriteMovie = Provider.of<MovieDetails>(context);
+    final watchHistoryMovie = Provider.of<WatchHistory>(context);
+
+
     final currentUser = userProvider.currentUser;
     if (currentUser == null) {
       return Center(child: CircularProgressIndicator());
@@ -35,14 +43,21 @@ class ProfileHeader extends StatelessWidget {
                 ),
                 Column(
                   children: [
-                    Text("12", style: textTheme.headlineSmall),
+                    Text(
+                      favouriteMovie.favouritesCount.toString(),
+                      style: textTheme.headlineSmall,
+                    ),
+
                     SizedBox(height: 12),
                     Text("Wish List", style: textTheme.titleLarge),
                   ],
                 ),
                 Column(
                   children: [
-                    Text("10", style: textTheme.headlineSmall),
+                    Text(
+                      watchHistoryMovie.watchHistoryCount.toString(),
+                      style: textTheme.headlineSmall,
+                    ),
                     SizedBox(height: 12),
                     Text("History", style: textTheme.titleLarge),
                   ],
@@ -86,6 +101,8 @@ class ProfileHeader extends StatelessWidget {
                     },
                   ),
                 ),
+
+
               ],
             ),
           ],

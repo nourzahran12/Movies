@@ -1,3 +1,4 @@
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:movies/app_theme.dart';
@@ -6,6 +7,8 @@ import 'package:movies/auth/login_screen.dart';
 import 'package:movies/auth/register_screen.dart';
 import 'package:movies/home_screen.dart';
 import 'package:movies/onboarding_screen.dart';
+import 'package:movies/providers/History%20Provider.dart';
+import 'package:movies/providers/Movies%20Details%20Provider.dart';
 import 'package:movies/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,8 +21,13 @@ Future<void> main() async {
   final bool showOnboarding = prefs.getBool('showOnboarding') ?? true;
 
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => UserProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => MovieDetails()),
+        ChangeNotifierProvider(create: (_) => WatchHistory())
+
+      ],
       child: MyApp(showOnboarding: showOnboarding),
     ),
   );
