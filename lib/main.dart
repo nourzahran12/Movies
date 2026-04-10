@@ -41,7 +41,8 @@ class MyApp extends StatelessWidget {
         LoginScreen.routeName: (_) => LoginScreen(),
         OnboardingScreen.routeName: (_) => OnboardingScreen(),
       },
-      initialRoute: showOnboarding ? OnboardingScreen.routeName : LoginScreen.routeName,
+      initialRoute: HomeScreen
+          .routeName, // showOnboarding ? OnboardingScreen.routeName : LoginScreen.routeName,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.dark,
