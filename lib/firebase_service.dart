@@ -49,4 +49,14 @@ class FirebaseService {
   }
 
   static Future<void> logout() => FirebaseAuth.instance.signOut();
+
+  static Future<void> updateUser(UserModel user) async {
+    CollectionReference<UserModel> usersCollection = getUsersCollection();
+    await usersCollection.doc(user.id).set(user, SetOptions(merge: true));
+  }
+
+  static Future<void> deleteUser(String userId) async {
+    await getUsersCollection().doc(userId).delete();
+    await FirebaseAuth.instance.currentUser!.delete();
+  }
 }

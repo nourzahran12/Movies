@@ -7,6 +7,7 @@ import 'package:movies/auth/register_screen.dart';
 import 'package:movies/home_screen.dart';
 import 'package:movies/onboarding_screen.dart';
 import 'package:movies/providers/user_provider.dart';
+import 'package:movies/tabs/profile/edit_profile.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
         RegisterScreen.routeName: (_) => RegisterScreen(),
         LoginScreen.routeName: (_) => LoginScreen(),
         OnboardingScreen.routeName: (_) => OnboardingScreen(),
+        EditProfile.routeName: (_) => EditProfile(),
       },
       initialRoute: OnboardingScreen.routeName,
       theme: AppTheme.lightTheme,

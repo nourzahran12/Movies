@@ -107,7 +107,7 @@ class _HomeTabState extends State<HomeTab> {
                       padding: const EdgeInsets.only(top: 160),
                       child: CarouselSlider.builder(
                         itemCount: movies.length,
-                        itemBuilder: (_, index, __) => GestureDetector(
+                        itemBuilder: (_, index, _) => GestureDetector(
                           onTap: () {
                             Navigator.push(
                               context,
@@ -172,8 +172,6 @@ class _HomeTabState extends State<HomeTab> {
                     ],
                   ),
                 ),
-
-                // 2. Horizontal ListView
                 SizedBox(
                   height: 240,
                   child: ListView.separated(
@@ -190,19 +188,16 @@ class _HomeTabState extends State<HomeTab> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => MoviesDetailsScreen(
-                              movieId: movies[index].id,
-                            ), // استخدام .id
+                            builder: (context) =>
+                                MoviesDetailsScreen(movieId: movies[index].id),
                           ),
                         );
                       },
                       child: SizedBox(
                         width: 150,
                         child: SimilarItem(
-                          url: movies[index]
-                              .largeCoverImage, // استخدام .largeCoverImage
-                          rate: movies[index].rating
-                              .toString(), // استخدام .rating
+                          url: movies[index].largeCoverImage,
+                          rate: movies[index].rating.toString(),
                         ),
                       ),
                     ),
