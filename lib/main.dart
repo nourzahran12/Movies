@@ -7,9 +7,15 @@ import 'package:movies/auth/register_screen.dart';
 import 'package:movies/home_screen.dart';
 import 'package:movies/movies_details_screen.dart';
 import 'package:movies/onboarding_screen.dart';
+import 'package:movies/providers/settings_provider.dart';
 import 'package:movies/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
+<<<<<<< HEAD
+=======
+import 'l10n/app_localizations.dart';
+
+>>>>>>> 1975a548e7c2a87c7e8c5644ef2ccafd10e4fd81
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -33,6 +39,9 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.dark,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      locale: Locale(SettingsProvider().languageCode),
     );
   }
 }

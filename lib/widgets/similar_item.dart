@@ -11,7 +11,6 @@ class SimilarItem extends StatelessWidget {
     required this.url,
     required this.rate,
   });
-
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -20,12 +19,25 @@ class SimilarItem extends StatelessWidget {
         children: [
           Positioned.fill(
             child: Image.network(
-              url.isNotEmpty
-                  ? url
-                  : "https://via.placeholder.com/300",
+              url,
               fit: BoxFit.cover,
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) return child;
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
+
+
+              errorBuilder: (context, error, stackTrace) {
+                return Image.asset(
+                  "assets/images/placeholder.png",
+                  fit: BoxFit.cover,
+                );
+              },
             ),
           ),
+
 
           Positioned(
             top: 8,
