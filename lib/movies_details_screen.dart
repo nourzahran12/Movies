@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:movies/api/api_service.dart';
 import 'package:movies/app_theme.dart';
 import 'package:movies/model/movie_model.dart';
+import 'package:movies/widgets/loading_indicator.dart';
 import 'package:movies/widgets/movie_stat_chip.dart';
 import 'package:movies/widgets/cast_item.dart';
 import 'package:movies/widgets/defaulte_botton.dart';
@@ -42,9 +43,7 @@ class _MoviesDetailsScreenState extends State<MoviesDetailsScreen> {
         future: movieDetailsFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(color: AppTheme.primary),
-            );
+            return const Center(child: LoadingIndicator());
           }
           if (snapshot.hasError || !snapshot.hasData) {
             return const Center(
