@@ -18,14 +18,7 @@ class _ProfileTabState extends State<ProfileTab> {
     return Column(
       children: [
         ProfileHeader(),
-        SizedBox(
-          height: 10,
-        ),
-
-        Expanded(
-          child: WatchHistoryTabs(),
-        ),
-
+        Expanded(child: WatchHistoryTabs()),
       ],
     );
   }

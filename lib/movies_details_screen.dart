@@ -3,8 +3,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:movies/api/api_service.dart';
 import 'package:movies/app_theme.dart';
 import 'package:movies/model/movie_model.dart';
-import 'package:movies/providers/History%20Provider.dart';
-import 'package:movies/providers/Movies%20Details%20Provider.dart';
+import 'package:movies/providers/watch_history_provider.dart';
+import 'package:movies/providers/movies_details_provider.dart';
+import 'package:movies/widgets/loading_indicator.dart';
 import 'package:movies/widgets/movie_stat_chip.dart';
 import 'package:movies/widgets/cast_item.dart';
 import 'package:movies/widgets/defaulte_botton.dart';
@@ -38,18 +39,15 @@ class _MoviesDetailsScreenState extends State<MoviesDetailsScreen> {
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
     double screenHeight = MediaQuery.sizeOf(context).height;
-    final favouriteMovie = Provider.of<MovieDetails>(context);
+    final favouriteMovie = Provider.of<MovieDetailsPorvider>(context);
 
     return Scaffold(
       backgroundColor: AppTheme.black,
       body: FutureBuilder<Movie>(
         future: movieDetailsFuture,
         builder: (context, snapshot) {
-
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(color: AppTheme.primary),
-            );
+            return const Center(child: LoadingIndicator());
           }
           if (snapshot.hasError || !snapshot.hasData) {
             return Center(
@@ -73,7 +71,6 @@ class _MoviesDetailsScreenState extends State<MoviesDetailsScreen> {
                       height: screenHeight * 0.69,
                       width: double.infinity,
                       fit: BoxFit.cover,
-                      // إضافة معالج الأخطاء هنا
                       errorBuilder: (context, error, stackTrace) {
                         return Container(
                           height: screenHeight * 0.69,
@@ -82,16 +79,13 @@ class _MoviesDetailsScreenState extends State<MoviesDetailsScreen> {
                             gradient: LinearGradient(
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
-                              colors: [
-                                Colors.grey[900]!, // لون داكن من الأعلى
-                                AppTheme.black, // يندمج مع الخلفية السوداء
-                              ],
+                              colors: [AppTheme.gray, AppTheme.black],
                             ),
                           ),
                           child: const Center(
                             child: Icon(
                               Icons.broken_image_outlined,
-                              color: Colors.white24,
+                              color: AppTheme.lightgray,
                               size: 60,
                             ),
                           ),
@@ -112,7 +106,7 @@ class _MoviesDetailsScreenState extends State<MoviesDetailsScreen> {
                       child: Center(
                         child: CircleAvatar(
                           radius: 50,
-                          backgroundColor: Colors.black26,
+                          backgroundColor: AppTheme.black,
                           child: Image.asset('assets/images/play.png'),
                         ),
                       ),
@@ -121,7 +115,7 @@ class _MoviesDetailsScreenState extends State<MoviesDetailsScreen> {
                       top: 40,
                       left: 16,
                       child: InkWell(
-                        onTap: (){
+                        onTap: () {
                           Navigator.pop(context);
                         },
                         child: SvgPicture.asset(
@@ -134,13 +128,13 @@ class _MoviesDetailsScreenState extends State<MoviesDetailsScreen> {
                     Positioned(
                       top: 40,
                       right: 16,
-                      child: Consumer<MovieDetails>(
+                      child: Consumer<MovieDetailsPorvider>(
                         builder: (context, favouriteMovie, child) {
                           final isFav = favouriteMovie.isFavourite(movie.id);
 
                           return InkWell(
                             onTap: () {
-                              favouriteMovie.addToFavourites(
+                              favouriteMovie.toggleFavourite(
                                 movie.id,
                                 movie.largeCoverImage,
                                 movie.rating,
@@ -150,9 +144,10 @@ class _MoviesDetailsScreenState extends State<MoviesDetailsScreen> {
                               'assets/icons/save.svg',
                               width: 20,
                               height: 30,
-
-                              /// 🔥 اللون بيتغير هنا
-                              color: isFav ? Colors.green : Colors.white,
+                              colorFilter: ColorFilter.mode(
+                                isFav ? AppTheme.primary : Colors.white,
+                                BlendMode.srcIn,
+                              ),
                             ),
                           );
                         },
@@ -188,20 +183,17 @@ class _MoviesDetailsScreenState extends State<MoviesDetailsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Consumer<WatchHistory>(
-                        builder: (context, favouriteMovie, child) {
-                          final isFav = favouriteMovie.isFavourite(movie.id);
-
+                        builder: (context, watchHistory, child) {
                           return DefaulteBotton(
                             text: 'Watch',
                             onPressed: () {
-                              favouriteMovie.addToFavourites(
+                              watchHistory.addToFavourites(
                                 movie.id,
                                 movie.largeCoverImage,
                                 movie.rating,
                               );
-
                             },
-                            colorBotton: isFav ? AppTheme.green:AppTheme.red,
+                            colorBotton: AppTheme.red,
                             textColor: AppTheme.white,
                           );
                         },

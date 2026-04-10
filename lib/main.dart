@@ -1,4 +1,3 @@
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:movies/app_theme.dart';
@@ -7,8 +6,8 @@ import 'package:movies/auth/login_screen.dart';
 import 'package:movies/auth/register_screen.dart';
 import 'package:movies/home_screen.dart';
 import 'package:movies/onboarding_screen.dart';
-import 'package:movies/providers/History%20Provider.dart';
-import 'package:movies/providers/Movies%20Details%20Provider.dart';
+import 'package:movies/providers/watch_history_provider.dart';
+import 'package:movies/providers/movies_details_provider.dart';
 import 'package:movies/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,9 +23,8 @@ Future<void> main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => UserProvider()),
-        ChangeNotifierProvider(create: (_) => MovieDetails()),
-        ChangeNotifierProvider(create: (_) => WatchHistory())
-
+        ChangeNotifierProvider(create: (_) => MovieDetailsPorvider()),
+        ChangeNotifierProvider(create: (_) => WatchHistory()),
       ],
       child: MyApp(showOnboarding: showOnboarding),
     ),
@@ -49,8 +47,9 @@ class MyApp extends StatelessWidget {
         LoginScreen.routeName: (_) => LoginScreen(),
         OnboardingScreen.routeName: (_) => OnboardingScreen(),
       },
-      initialRoute: HomeScreen
-          .routeName, // showOnboarding ? OnboardingScreen.routeName : LoginScreen.routeName,
+      initialRoute: showOnboarding
+          ? OnboardingScreen.routeName
+          : LoginScreen.routeName,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.dark,

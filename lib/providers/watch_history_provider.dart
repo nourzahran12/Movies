@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 
 class WatchHistory with ChangeNotifier {
-
   List<Map<String, dynamic>> watchHistoryMoviesList = [];
 
   void addToFavourites(int id, String movieCover, double rate) {
-
     if (watchHistoryMoviesList.any((movie) => movie['id'] == id)) return;
 
     watchHistoryMoviesList.add({
