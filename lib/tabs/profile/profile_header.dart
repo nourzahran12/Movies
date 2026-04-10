@@ -18,75 +18,78 @@ class ProfileHeader extends StatelessWidget {
     }
 
     TextTheme textTheme = TextTheme.of(context);
-    return Container(
-      padding: EdgeInsets.all(16),
-      decoration: BoxDecoration(color: AppTheme.darkGray),
-      child: Column(
-        children: [
-          SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              CircleAvatar(
-                radius: 50,
-                backgroundImage: currentUser.avatar.startsWith('http')
-                    ? NetworkImage(currentUser.avatar)
-                    : AssetImage(currentUser.avatar) as ImageProvider,
-              ),
-              Column(
-                children: [
-                  Text("12", style: textTheme.headlineSmall),
-                  Text("Wish List", style: textTheme.titleLarge),
-                ],
-              ),
-              Column(
-                children: [
-                  Text("10", style: textTheme.headlineSmall),
-                  Text("History", style: textTheme.titleLarge),
-                ],
-              ),
-            ],
-          ),
-          SizedBox(height: 10),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              currentUser.name,
-              style: textTheme.titleMedium!.copyWith(fontWeight: .w700),
-            ),
-          ),
-          SizedBox(height: 10),
-          Row(
-            children: [
-              Expanded(
-                flex: 5,
-                child: DefaulteBotton(text: 'Edit Profile', onPressed: () {}),
-              ),
-              SizedBox(width: 10),
-              Expanded(
-                flex: 3,
-                child: DefaulteBotton(
-                  text: 'Exit',
-                  textColor: AppTheme.white,
-                  suffixIconImageName: 'exit',
-                  colorBotton: AppTheme.red,
-                  onPressed: () async {
-                    try {
-                      await AuthService().logout();
-                    } catch (error) {
-                      UIUtils.showErrorMessage(error.toString());
-                    }
-                    if (!context.mounted) return;
-                    Navigator.pushReplacementNamed(
-                      context,
-                      LoginScreen.routeName,
-                    );
-                  },
+    return SafeArea(
+      child: Container(
+        padding: EdgeInsets.all(18),
+        decoration: BoxDecoration(color: AppTheme.darkGray),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CircleAvatar(
+                  radius: 45,
+                  backgroundImage: currentUser.avatar.startsWith('http')
+                      ? NetworkImage(currentUser.avatar)
+                      : AssetImage(currentUser.avatar) as ImageProvider,
                 ),
+                Column(
+                  children: [
+                    Text("12", style: textTheme.headlineSmall),
+                    SizedBox(height: 12),
+                    Text("Wish List", style: textTheme.titleLarge),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Text("10", style: textTheme.headlineSmall),
+                    SizedBox(height: 12),
+                    Text("History", style: textTheme.titleLarge),
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(height: 15),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                currentUser.name,
+                style: textTheme.titleMedium!.copyWith(fontWeight: .w700),
               ),
-            ],
-          ),
-        ],
+            ),
+            SizedBox(height: 23),
+            Row(
+              children: [
+                Expanded(
+                  flex: 5,
+                  child: DefaulteBotton(text: 'Edit Profile', onPressed: () {}),
+                ),
+                SizedBox(width: 10),
+                Expanded(
+                  flex: 3,
+                  child: DefaulteBotton(
+                    text: 'Exit',
+                    textColor: AppTheme.white,
+                    suffixIconImageName: 'exit',
+                    colorBotton: AppTheme.red,
+                    onPressed: () async {
+                      try {
+                        await AuthService().logout();
+                      } catch (error) {
+                        UIUtils.showErrorMessage(error.toString());
+                      }
+                      if (!context.mounted) return;
+                      Navigator.pushReplacementNamed(
+                        context,
+                        LoginScreen.routeName,
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
