@@ -1,8 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:movies/app_theme.dart';
+import 'package:movies/firebase_service.dart';
+import 'package:movies/home_screen.dart';
 import 'package:movies/widgets/avatar_picker.dart';
 import 'package:movies/widgets/defaulte_botton.dart';
+import 'package:provider/provider.dart';
 
+import '../providers/user_provider.dart';
+import '../ui_utils.dart';
 import '../widgets/default_text_form_field.dart';
 import '../widgets/language_switcher.dart';
 
@@ -21,6 +27,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController confirmPasswordController = .new();
   TextEditingController phoneController = .new();
   GlobalKey<FormState> formKey = .new();
+  String selectedAvatar = '';
+
+  @override
+  void initState() {
+    super.initState();
+    selectedAvatar = 'assets/images/avatar_1.png';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +53,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
             key: formKey,
             child: Column(
               children: <Widget>[
-                AvatarPicker(),
+                AvatarPicker(
+                  onChanged: (avatar) {
+                    selectedAvatar = avatar;
+                  },
+                ),
                 Text(
                   'Avatar',
                   style: textTheme.titleSmall!.copyWith(color: AppTheme.white),
@@ -62,7 +79,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   hintText: 'Email',
                   prefixIconImageName: 'email',
                   validator: (value) {
-                    if (value!.isEmpty || value.contains('@')) {
+                    if (value!.isEmpty || !value.contains('@')) {
                       return 'Please enter a valid email';
                     }
                     return null;
@@ -148,6 +165,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void register() {
-    if (formKey.currentState!.validate()) {}
+    if (formKey.currentState!.validate()) {
+      FirebaseService.register(
+            name: nameController.text,
+            phone: phoneController.text,
+            email: emailController.text,
+            password: passwordController.text,
+            avatar: selectedAvatar,
+          )
+          .then((user) {
+            Provider.of<UserProvider>(
+              context,
+              listen: false,
+            ).updateCurrentUser(user);
+            Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+          })
+          .catchError((error) {
+            String? errorMessage;
+            if (error is FirebaseAuthException) {
+              errorMessage = error.message;
+            }
+            UIUtils.showErrorMessage(errorMessage);
+          });
+    }
   }
 }

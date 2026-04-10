@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 
 class AvatarPicker extends StatefulWidget {
-  final Function(int index)? onChanged;
+  final Function(String avatar)? onChanged;
+
   const AvatarPicker({super.key, this.onChanged});
+
   @override
   State<AvatarPicker> createState() => _AvatarPickerState();
 }
+
 class _AvatarPickerState extends State<AvatarPicker> {
   PageController controller = PageController(
     viewportFraction: 0.35,
@@ -17,6 +20,7 @@ class _AvatarPickerState extends State<AvatarPicker> {
     'assets/images/avatar_1.png',
     'assets/images/avatar_2.png',
   ];
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -29,7 +33,7 @@ class _AvatarPickerState extends State<AvatarPicker> {
           setState(() {
             currentIndex = index;
           });
-          widget.onChanged?.call(index);
+          widget.onChanged?.call(avatars[index]);
         },
         itemBuilder: (context, index) {
           bool isSelected = index == currentIndex;

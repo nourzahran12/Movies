@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:movies/app_theme.dart';
+import 'package:movies/auth/login_screen.dart';
 import 'package:movies/widgets/defaulte_botton.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OnboardingScreen extends StatefulWidget {
   static const String routeName = '/OnBoarding';
@@ -33,9 +35,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   ];
   int index = 0;
 
-  void nextPage() {
+  void nextPage() async {
     if (index == 5) {
-      Navigator.pushReplacementNamed(context, '/login');
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('showOnboarding', false);
+      if (!mounted) return;
+      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
       return;
     }
     index++;
