@@ -5,9 +5,7 @@ import 'package:movies/auth/forgot_password_screen.dart';
 import 'package:movies/auth/login_screen.dart';
 import 'package:movies/auth/register_screen.dart';
 import 'package:movies/home_screen.dart';
-import 'package:movies/movies_details_screen.dart';
 import 'package:movies/onboarding_screen.dart';
-import 'package:movies/providers/settings_provider.dart';
 import 'package:movies/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -29,11 +27,10 @@ class MyApp extends StatelessWidget {
         LoginScreen.routeName: (_) => LoginScreen(),
         OnboardingScreen.routeName: (_) => OnboardingScreen(),
       },
-      initialRoute: HomeScreen.routeName,
+      initialRoute: OnboardingScreen.routeName,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.dark,
-      locale: Locale(SettingsProvider().languageCode),
     );
   }
 }

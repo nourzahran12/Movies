@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:movies/api/api_service.dart';
 import 'package:movies/app_theme.dart';
 import 'package:movies/model/movie_model.dart'; // تأكد من استيراد الموديل
-import 'package:movies/widgets/similar_item.dart';
 import 'package:movies/movies_details_screen.dart';
+import 'package:movies/widgets/loading_indicator.dart';
+import 'package:movies/widgets/similar_item.dart';
 
 class HomeTab extends StatefulWidget {
   @override
@@ -13,7 +14,7 @@ class HomeTab extends StatefulWidget {
 
 class _HomeTabState extends State<HomeTab> {
   int currentIndex = 0;
-  late Future<List<Movie>> moviesFuture; // تغيير النوع لـ List<Movie>
+  late Future<List<Movie>> moviesFuture;
 
   @override
   void initState() {
@@ -28,13 +29,10 @@ class _HomeTabState extends State<HomeTab> {
     return Scaffold(
       backgroundColor: AppTheme.black,
       body: FutureBuilder<List<Movie>>(
-        // تغيير النوع هنا أيضاً
         future: moviesFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(color: AppTheme.primary),
-            );
+            return const Center(child: LoadingIndicator());
           } else if (snapshot.hasError ||
               snapshot.data == null ||
               snapshot.data!.isEmpty) {
@@ -123,8 +121,8 @@ class _HomeTabState extends State<HomeTab> {
                           child: SizedBox(
                             width: 200,
                             child: SimilarItem(
-                              url: movies[index]
-                                  .largeCoverImage, // استخدام .largeCoverImage
+                              url: movies[index].largeCoverImage,
+                              // استخدام .largeCoverImage
                               rate: movies[index].rating
                                   .toString(), // استخدام .rating
                             ),
