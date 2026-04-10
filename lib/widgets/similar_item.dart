@@ -6,42 +6,33 @@ class SimilarItem extends StatelessWidget {
   final String url;
   final String rate;
 
-<<<<<<< HEAD
-  const SimilarItem({
-    super.key,
-    required this.url,
-    required this.rate,
-  });
-=======
   const SimilarItem({super.key, required this.url, required this.rate});
 
->>>>>>> feature/movies-details-screen
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(16),
       child: Stack(
         children: [
+          // الصورة الخلفية
           Positioned.fill(
             child: Image.network(
-<<<<<<< HEAD
-              url,
-              fit: BoxFit.cover,
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress == null) return child;
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              },
-
-
-              errorBuilder: (context, error, stackTrace) {
-                return Image.asset(
-                  "assets/images/placeholder.png",
-                  fit: BoxFit.cover,
-=======
               url.isNotEmpty ? url : "https://via.placeholder.com/300",
               fit: BoxFit.cover,
+              // معالجة التحميل (Loading)
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) return child;
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: AppTheme.primary,
+                    value: loadingProgress.expectedTotalBytes != null
+                        ? loadingProgress.cumulativeBytesLoaded /
+                              loadingProgress.expectedTotalBytes!
+                        : null,
+                  ),
+                );
+              },
+              // معالجة الخطأ في حالة فشل التحميل
               errorBuilder: (context, error, stackTrace) {
                 return Container(
                   color: AppTheme.gray,
@@ -54,23 +45,10 @@ class SimilarItem extends StatelessWidget {
                   ),
                 );
               },
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress == null) return child;
-                return Center(
-                  child: CircularProgressIndicator(
-                    color: AppTheme.primary,
-                    value: loadingProgress.expectedTotalBytes != null
-                        ? loadingProgress.cumulativeBytesLoaded /
-                              loadingProgress.expectedTotalBytes!
-                        : null,
-                  ),
->>>>>>> feature/movies-details-screen
-                );
-              },
             ),
           ),
 
-
+          // علامة التقييم (Rating)
           Positioned(
             top: 8,
             left: 8,
@@ -81,6 +59,7 @@ class SimilarItem extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
                     rate,
