@@ -47,10 +47,10 @@ class _MoviesDetailsScreenState extends State<MoviesDetailsScreen> {
             return const Center(child: LoadingIndicator());
           }
           if (snapshot.hasError || !snapshot.hasData) {
-            return const Center(
+            return Center(
               child: Text(
                 "Error loading details",
-                style: TextStyle(color: Colors.white),
+                style: textTheme.titleMedium,
               ),
             );
           }
