@@ -7,8 +7,11 @@ import 'package:movies/auth/register_screen.dart';
 import 'package:movies/home_screen.dart';
 import 'package:movies/movies_details_screen.dart';
 import 'package:movies/onboarding_screen.dart';
+import 'package:movies/providers/settings_provider.dart';
 import 'package:movies/providers/user_provider.dart';
 import 'package:provider/provider.dart';
+
+import 'l10n/app_localizations.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,6 +36,9 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.dark,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      locale: Locale(SettingsProvider().languageCode),
     );
   }
 }

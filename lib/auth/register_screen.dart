@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:movies/app_theme.dart';
 import 'package:movies/firebase_service.dart';
@@ -7,6 +8,7 @@ import 'package:movies/widgets/defaulte_botton.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/user_provider.dart';
+import '../ui_utils.dart';
 import '../widgets/default_text_form_field.dart';
 import '../widgets/language_switcher.dart';
 
@@ -165,18 +167,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void register() {
     if (formKey.currentState!.validate()) {
       FirebaseService.register(
-        name: nameController.text,
-        phone: phoneController.text,
-        email: emailController.text,
-        password: passwordController.text,
-        avatar: selectedAvatar,
-      ).then((user) {
-        Provider.of<UserProvider>(
-          context,
-          listen: false,
-        ).updateCurrentUser(user);
-        Navigator.pushReplacementNamed(context, HomeScreen.routeName);
-      });
+            name: nameController.text,
+            phone: phoneController.text,
+            email: emailController.text,
+            password: passwordController.text,
+            avatar: selectedAvatar,
+          )
+          .then((user) {
+            Provider.of<UserProvider>(
+              context,
+              listen: false,
+            ).updateCurrentUser(user);
+            Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+          })
+          .catchError((error) {
+            String? errorMessage;
+            if (error is FirebaseAuthException) {
+              errorMessage = error.message;
+            }
+            UIUtils.showErrorMessage(errorMessage);
+          });
     }
   }
 }
