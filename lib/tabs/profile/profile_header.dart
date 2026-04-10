@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../../auth/login_screen.dart';
 import '../../providers/user_provider.dart';
 import '../../ui_utils.dart';
+import 'edit_profile.dart';
 
 class ProfileHeader extends StatelessWidget {
   @override
@@ -62,7 +63,12 @@ class ProfileHeader extends StatelessWidget {
               children: [
                 Expanded(
                   flex: 5,
-                  child: DefaulteBotton(text: 'Edit Profile', onPressed: () {}),
+                  child: DefaulteBotton(
+                    text: 'Edit Profile',
+                    onPressed: () {
+                      Navigator.pushNamed(context, EditProfile.routeName);
+                    },
+                  ),
                 ),
                 SizedBox(width: 10),
                 Expanded(
