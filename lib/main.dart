@@ -8,14 +8,28 @@ import 'package:movies/home_screen.dart';
 import 'package:movies/onboarding_screen.dart';
 import 'package:movies/providers/user_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(ChangeNotifierProvider(create: (_) => UserProvider(), child: MyApp()));
+
+  final prefs = await SharedPreferences.getInstance();
+  final bool showOnboarding = prefs.getBool('showOnboarding') ?? true;
+
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => UserProvider(),
+      child: MyApp(showOnboarding: showOnboarding),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
+  final bool showOnboarding;
+
+  MyApp({required this.showOnboarding});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -27,7 +41,7 @@ class MyApp extends StatelessWidget {
         LoginScreen.routeName: (_) => LoginScreen(),
         OnboardingScreen.routeName: (_) => OnboardingScreen(),
       },
-      initialRoute: HomeScreen.routeName,
+      initialRoute: showOnboarding ? OnboardingScreen.routeName : LoginScreen.routeName,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.dark,
