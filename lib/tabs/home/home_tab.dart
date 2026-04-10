@@ -2,43 +2,98 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:movies/app_theme.dart';
 import 'package:movies/widgets/similar_item.dart';
+import 'package:movies/api/api_service.dart';
+
 class HomeTab extends StatefulWidget {
   @override
   State<HomeTab> createState() => _HomeTabState();
 }
+
 class _HomeTabState extends State<HomeTab> {
   int currentIndex = 0;
-  List<String> images = [
-    'https://image.tmdb.org/t/p/w500/8YFL5QQVPy3AgrEQxNYVSgiPEbe.jpg',
-    'https://image.tmdb.org/t/p/w500/qAZ0pzat24kLdO3o8ejmbLxyOac.jpg',
-    'https://image.tmdb.org/t/p/w500/9Gtg2DzBhmYamXBS1hKAhiwbBKS.jpg',
-    'https://image.tmdb.org/t/p/w500/6DrHO1jr3qVrViUO6s6kFiAGM7.jpg',
-    'https://image.tmdb.org/t/p/w500/5P8SmMzSNYikXpxil6BYzJ16611.jpg',
-  ];
+  List<dynamic> movies = [];
+  bool isLoading = true;
+  String? errorMessage;
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
+  void getData() async {
+    try {
+      movies = await ApiService.getMovies();
+    } catch (e) {
+      errorMessage = e.toString();
+    }
+
+    setState(() {
+      isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    /// 🟢 Loading
+    if (isLoading) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    /// 🔴 Error
+    if (errorMessage != null) {
+      return Scaffold(
+        body: Center(
+          child: Text(
+            "Error: $errorMessage",
+            style: const TextStyle(color: Colors.red),
+          ),
+        ),
+      );
+    }
+
+    /// 🔴 No Data
+    if (movies.isEmpty) {
+      return const Scaffold(
+        body: Center(child: Text("No Movies Found")),
+      );
+    }
+
+    /// 🟡 Fix index
+    if (currentIndex >= movies.length) {
+      currentIndex = 0;
+    }
+
     TextTheme textTheme = Theme.of(context).textTheme;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: [
             Stack(
               children: [
+                /// 🔥 Background Image
                 AnimatedSwitcher(
-                  duration: Duration(milliseconds: 500),
+                  duration: const Duration(milliseconds: 500),
                   child: Container(
-                    key: ValueKey(images[currentIndex]),
+                    key: ValueKey(currentIndex),
                     height: 620,
                     width: double.infinity,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: NetworkImage(images[currentIndex]),
+                        image: NetworkImage(
+                          movies[currentIndex]['medium_cover_image'] ??
+                              "https://via.placeholder.com/300",
+                        ),
                         fit: BoxFit.cover,
                       ),
                     ),
                   ),
                 ),
+
+                /// Gradient
                 Container(
                   height: 620,
                   width: double.infinity,
@@ -56,24 +111,30 @@ class _HomeTabState extends State<HomeTab> {
                   ),
                 ),
 
+                /// Available Now
                 Center(
                   child: Padding(
                     padding: const EdgeInsets.only(top: 40),
                     child: Image.asset('assets/images/Available Now.png'),
                   ),
                 ),
+
+                /// 🔥 Carousel
                 Padding(
                   padding: const EdgeInsets.only(top: 160),
                   child: CarouselSlider.builder(
-                    itemCount: images.length,
+                    itemCount: movies.length,
                     itemBuilder: (_, index, __) => SizedBox(
                       width: 200,
-                      child: SimilarItem(url: images[index], rate: '7.7'),
+                      child: SimilarItem(
+                        url: movies[index]['medium_cover_image'] ?? "",
+                        rate: movies[index]['rating'].toString(),
+                      ),
                     ),
                     options: CarouselOptions(
                       height: 320,
                       autoPlay: true,
-                      autoPlayInterval: Duration(seconds: 4),
+                      autoPlayInterval: const Duration(seconds: 4),
                       enlargeCenterPage: true,
                       viewportFraction: 0.50,
                       enlargeFactor: 0.3,
@@ -93,16 +154,18 @@ class _HomeTabState extends State<HomeTab> {
                 ),
               ],
             ),
+
+            /// Section Title
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              padding:
+              const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Action',
-                    style: textTheme.titleMedium!.copyWith(
-                      color: AppTheme.white,
-                    ),
+                    'Movies',
+                    style: textTheme.titleMedium!
+                        .copyWith(color: AppTheme.white),
                   ),
                   Icon(
                     Icons.arrow_right_alt,
@@ -112,6 +175,8 @@ class _HomeTabState extends State<HomeTab> {
                 ],
               ),
             ),
+
+            /// 🔥 Bottom List
             SizedBox(
               height: 240,
               child: ListView.separated(
@@ -123,12 +188,13 @@ class _HomeTabState extends State<HomeTab> {
                 itemBuilder: (context, index) => SizedBox(
                   width: 150,
                   child: SimilarItem(
-                    url: images[index % images.length],
-                    rate: '7.7',
+                    url: movies[index]['medium_cover_image'] ?? "",
+                    rate: movies[index]['rating'].toString(),
                   ),
                 ),
-                separatorBuilder: (context, index) => const SizedBox(width: 10),
-                itemCount: 10,
+                separatorBuilder: (context, index) =>
+                const SizedBox(width: 10),
+                itemCount: movies.length,
               ),
             ),
           ],
