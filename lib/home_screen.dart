@@ -33,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
             label: '',
           ),
           BottomNavigationBarItem(
-            icon: SvgPicture.asset('assets/icons/seach.svg'),
+            icon: SvgPicture.asset('assets/icons/search.svg'),
             activeIcon: SvgPicture.asset('assets/icons/seach-filled.svg'),
             label: '',
           ),

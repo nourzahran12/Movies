@@ -48,4 +48,22 @@ class ApiService {
       return [];
     }
   }
+
+  static Future<List<Movie>> searchMovies(String query) async {
+    final String urlString =
+        '$baseUrl/list_movies.json?query_term=${Uri.encodeComponent(query)}';
+
+    final response = await http.get(Uri.parse(urlString));
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      if (data['data']['movies'] != null) {
+        List moviesJson = data['data']['movies'];
+        return moviesJson.map((json) => Movie.fromJson(json)).toList();
+      }
+      return []; 
+    } else {
+      throw Exception('Failed to load movies');
+    }
+  }
 }
