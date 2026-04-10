@@ -61,9 +61,26 @@ class ApiService {
         List moviesJson = data['data']['movies'];
         return moviesJson.map((json) => Movie.fromJson(json)).toList();
       }
-      return []; 
+      return [];
     } else {
       throw Exception('Failed to load movies');
+    }
+  }
+
+  static Future<List<Movie>> fetchMoviesByGenre(String genre) async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/list_movies.json?genre=$genre'),
+    );
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      if (data['data']['movies'] != null) {
+        List moviesJson = data['data']['movies'];
+        return moviesJson.map((json) => Movie.fromJson(json)).toList();
+      }
+      return [];
+    } else {
+      throw Exception('Failed to load movies for $genre');
     }
   }
 }
