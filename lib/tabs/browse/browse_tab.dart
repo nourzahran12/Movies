@@ -4,6 +4,7 @@ import 'package:movies/app_theme.dart';
 import 'package:movies/model/movie_model.dart';
 import 'package:movies/movies_details_screen.dart';
 import 'package:movies/widgets/genre_filter_bar.dart';
+import 'package:movies/widgets/loading_indicator.dart';
 import 'package:movies/widgets/similar_item.dart';
 
 class BrowseTab extends StatefulWidget {
@@ -73,9 +74,7 @@ class _BrowseTabState extends State<BrowseTab> {
             const SizedBox(height: 16),
             Expanded(
               child: isLoading
-                  ? const Center(
-                      child: CircularProgressIndicator(color: AppTheme.primary),
-                    )
+                  ? const Center(child: LoadingIndicator())
                   : movies.isEmpty
                   ? Center(
                       child: Text(
