@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movies/app_theme.dart';
+import 'package:movies/widgets/loading_indicator.dart';
 
 class SimilarItem extends StatelessWidget {
   final String url;
@@ -14,25 +15,14 @@ class SimilarItem extends StatelessWidget {
       borderRadius: BorderRadius.circular(16),
       child: Stack(
         children: [
-          // الصورة الخلفية
           Positioned.fill(
             child: Image.network(
               url.isNotEmpty ? url : "https://via.placeholder.com/300",
               fit: BoxFit.cover,
-              // معالجة التحميل (Loading)
               loadingBuilder: (context, child, loadingProgress) {
                 if (loadingProgress == null) return child;
-                return Center(
-                  child: CircularProgressIndicator(
-                    color: AppTheme.primary,
-                    value: loadingProgress.expectedTotalBytes != null
-                        ? loadingProgress.cumulativeBytesLoaded /
-                              loadingProgress.expectedTotalBytes!
-                        : null,
-                  ),
-                );
+                return Center(child: LoadingIndicator());
               },
-              // معالجة الخطأ في حالة فشل التحميل
               errorBuilder: (context, error, stackTrace) {
                 return Container(
                   color: AppTheme.gray,
@@ -48,7 +38,6 @@ class SimilarItem extends StatelessWidget {
             ),
           ),
 
-          // علامة التقييم (Rating)
           Positioned(
             top: 8,
             left: 8,
