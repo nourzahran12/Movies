@@ -24,6 +24,7 @@ class MoviesDetailsScreen extends StatefulWidget {
 class _MoviesDetailsScreenState extends State<MoviesDetailsScreen> {
   late Future<Movie> movieDetailsFuture;
   late Future<List<Movie>> similarMoviesFuture;
+  bool isSaved = false;
 
   @override
   void initState() {
@@ -67,7 +68,6 @@ class _MoviesDetailsScreenState extends State<MoviesDetailsScreen> {
                       height: screenHeight * 0.69,
                       width: double.infinity,
                       fit: BoxFit.cover,
-                      // إضافة معالج الأخطاء هنا
                       errorBuilder: (context, error, stackTrace) {
                         return Container(
                           height: screenHeight * 0.69,
@@ -77,15 +77,15 @@ class _MoviesDetailsScreenState extends State<MoviesDetailsScreen> {
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
                               colors: [
-                                Colors.grey[900]!, // لون داكن من الأعلى
-                                AppTheme.black, // يندمج مع الخلفية السوداء
+                                AppTheme.darkGray,
+                                AppTheme.black, //
                               ],
                             ),
                           ),
                           child: const Center(
                             child: Icon(
                               Icons.broken_image_outlined,
-                              color: Colors.white24,
+                              color: AppTheme.lightgray,
                               size: 60,
                             ),
                           ),
@@ -106,7 +106,7 @@ class _MoviesDetailsScreenState extends State<MoviesDetailsScreen> {
                       child: Center(
                         child: CircleAvatar(
                           radius: 50,
-                          backgroundColor: Colors.black26,
+                          backgroundColor: AppTheme.black,
                           child: Image.asset('assets/images/play.png'),
                         ),
                       ),
@@ -127,11 +127,19 @@ class _MoviesDetailsScreenState extends State<MoviesDetailsScreen> {
                       top: 40,
                       right: 16,
                       child: GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          setState(() {
+                            isSaved = !isSaved;
+                          });
+                        },
                         child: SvgPicture.asset(
                           'assets/icons/save.svg',
                           width: 20,
                           height: 30,
+                          colorFilter: ColorFilter.mode(
+                            isSaved ? AppTheme.primary : AppTheme.white,
+                            BlendMode.srcIn,
+                          ),
                         ),
                       ),
                     ),
