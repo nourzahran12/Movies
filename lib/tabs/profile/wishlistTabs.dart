@@ -4,8 +4,8 @@ import 'package:provider/provider.dart';
 
 import '../../app_theme.dart';
 import '../../movies_details_screen.dart';
-import '../../providers/watch_history_provider.dart';
 import '../../providers/movies_details_provider.dart';
+import '../../providers/watch_history_provider.dart';
 
 class WatchHistoryTabs extends StatefulWidget {
   @override
@@ -32,7 +32,6 @@ class _WatchHistoryTabsState extends State<WatchHistoryTabs> {
     final favouriteMovie = Provider.of<MovieDetailsPorvider>(context);
     final history = Provider.of<WatchHistory>(context);
     TextTheme textTheme = Theme.of(context).textTheme;
-
     return Column(
       children: [
         Container(
@@ -81,9 +80,7 @@ class _WatchHistoryTabsState extends State<WatchHistoryTabs> {
             ],
           ),
         ),
-
         SizedBox(height: 10),
-
         Expanded(
           child: PageView(
             controller: pageController,
@@ -108,7 +105,6 @@ class _WatchHistoryTabsState extends State<WatchHistoryTabs> {
                       ),
                       itemBuilder: (context, i) {
                         final movie = favouriteMovie.favouriteMoviesList[i];
-
                         return GestureDetector(
                           onTap: () {
                             Navigator.push(
@@ -135,7 +131,6 @@ class _WatchHistoryTabsState extends State<WatchHistoryTabs> {
                                     height: double.infinity,
                                   ),
                                 ),
-
                                 Positioned(
                                   top: 8,
                                   right: 8,
@@ -173,7 +168,6 @@ class _WatchHistoryTabsState extends State<WatchHistoryTabs> {
                         );
                       },
                     ),
-
               history.watchHistoryMoviesList.isEmpty
                   ? Center(
                       child: Image.asset('assets/images/Empty.png', width: 100),
@@ -189,7 +183,6 @@ class _WatchHistoryTabsState extends State<WatchHistoryTabs> {
                       ),
                       itemBuilder: (context, i) {
                         final movie = history.watchHistoryMoviesList[i];
-
                         return GestureDetector(
                           onTap: () {
                             Navigator.push(
@@ -207,7 +200,6 @@ class _WatchHistoryTabsState extends State<WatchHistoryTabs> {
                             ),
                             child: Stack(
                               children: [
-                                /// 🔥 Cover
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(16),
                                   child: Image.network(
@@ -217,7 +209,6 @@ class _WatchHistoryTabsState extends State<WatchHistoryTabs> {
                                     height: double.infinity,
                                   ),
                                 ),
-
                                 Positioned(
                                   top: 8,
                                   right: 8,

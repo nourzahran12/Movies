@@ -5,13 +5,17 @@ import 'package:movies/widgets/defaulte_botton.dart';
 import 'package:provider/provider.dart';
 
 import '../../auth/login_screen.dart';
+import '../../providers/movies_details_provider.dart';
 import '../../providers/user_provider.dart';
+import '../../providers/watch_history_provider.dart';
 import '../../ui_utils.dart';
 import 'edit_profile.dart';
 
 class ProfileHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final favouriteMovie = Provider.of<MovieDetailsPorvider>(context);
+    final history = Provider.of<WatchHistory>(context);
     final userProvider = Provider.of<UserProvider>(context);
     final currentUser = userProvider.currentUser;
     if (currentUser == null) {
@@ -36,14 +40,20 @@ class ProfileHeader extends StatelessWidget {
                 ),
                 Column(
                   children: [
-                    Text("12", style: textTheme.headlineSmall),
+                    Text(
+                      favouriteMovie.favouriteMoviesList.length.toString(),
+                      style: textTheme.headlineSmall,
+                    ),
                     SizedBox(height: 12),
                     Text("Wish List", style: textTheme.titleLarge),
                   ],
                 ),
                 Column(
                   children: [
-                    Text("10", style: textTheme.headlineSmall),
+                    Text(
+                      history.watchHistoryMoviesList.length.toString(),
+                      style: textTheme.headlineSmall,
+                    ),
                     SizedBox(height: 12),
                     Text("History", style: textTheme.titleLarge),
                   ],

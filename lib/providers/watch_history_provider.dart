@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 
+import '../firebase_service.dart';
+
 class WatchHistory with ChangeNotifier {
   List<Map<String, dynamic>> watchHistoryMoviesList = [];
 
-  void addToFavourites(int id, String movieCover, double rate) {
+  Future<void> addToFavourites(
+    int id,
+    String movieCover,
+    double rate,
+    String userId,
+    List<Map<String, dynamic>> wishlist,
+  ) async {
     if (watchHistoryMoviesList.any((movie) => movie['id'] == id)) return;
 
     watchHistoryMoviesList.add({
@@ -13,6 +21,11 @@ class WatchHistory with ChangeNotifier {
     });
 
     notifyListeners();
+    await FirebaseService.saveUserData(
+      userId: userId,
+      history: watchHistoryMoviesList,
+      wishlist: wishlist,
+    );
   }
 
   bool isFavourite(int id) {

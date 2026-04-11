@@ -28,6 +28,8 @@ class FirebaseService {
       phone: phone,
       email: email,
       avatar: avatar,
+      wishlist: [],
+      history: [],
     );
     CollectionReference<UserModel> usersCollection = getUsersCollection();
     await usersCollection.doc(user.id).set(user);
@@ -58,5 +60,21 @@ class FirebaseService {
   static Future<void> deleteUser(String userId) async {
     await getUsersCollection().doc(userId).delete();
     await FirebaseAuth.instance.currentUser!.delete();
+  }
+
+  static Future<void> saveUserData({
+    required String userId,
+    required List<Map<String, dynamic>> wishlist,
+    required List<Map<String, dynamic>> history,
+  }) async {
+    await FirebaseFirestore.instance.collection('users').doc(userId).set({
+      "wishlist": wishlist,
+      "history": history,
+    }, SetOptions(merge: true));
+  }
+
+  static Future<UserModel> getUser(String userId) async {
+    var doc = await getUsersCollection().doc(userId).get();
+    return doc.data()!;
   }
 }

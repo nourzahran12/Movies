@@ -3,13 +3,14 @@ import 'package:flutter_svg/svg.dart';
 import 'package:movies/api/api_service.dart';
 import 'package:movies/app_theme.dart';
 import 'package:movies/model/movie_model.dart';
-import 'package:movies/providers/watch_history_provider.dart';
 import 'package:movies/providers/movies_details_provider.dart';
-import 'package:movies/widgets/loading_indicator.dart';
-import 'package:movies/widgets/movie_stat_chip.dart';
+import 'package:movies/providers/user_provider.dart';
+import 'package:movies/providers/watch_history_provider.dart';
 import 'package:movies/widgets/cast_item.dart';
 import 'package:movies/widgets/defaulte_botton.dart';
 import 'package:movies/widgets/genre_item.dart';
+import 'package:movies/widgets/loading_indicator.dart';
+import 'package:movies/widgets/movie_stat_chip.dart';
 import 'package:movies/widgets/screenshot_Item.dart';
 import 'package:movies/widgets/similar_item.dart';
 import 'package:provider/provider.dart';
@@ -37,9 +38,12 @@ class _MoviesDetailsScreenState extends State<MoviesDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final userId = userProvider.currentUser!.id;
     TextTheme textTheme = Theme.of(context).textTheme;
     double screenHeight = MediaQuery.sizeOf(context).height;
     final favouriteMovie = Provider.of<MovieDetailsPorvider>(context);
+    final historyProvider = Provider.of<WatchHistory>(context, listen: false);
 
     return Scaffold(
       backgroundColor: AppTheme.black,
@@ -138,6 +142,8 @@ class _MoviesDetailsScreenState extends State<MoviesDetailsScreen> {
                                 movie.id,
                                 movie.largeCoverImage,
                                 movie.rating,
+                                userId,
+                                historyProvider.watchHistoryMoviesList,
                               );
                             },
                             child: SvgPicture.asset(
@@ -191,6 +197,8 @@ class _MoviesDetailsScreenState extends State<MoviesDetailsScreen> {
                                 movie.id,
                                 movie.largeCoverImage,
                                 movie.rating,
+                                userId,
+                                favouriteMovie.favouriteMoviesList,
                               );
                             },
                             colorBotton: AppTheme.red,

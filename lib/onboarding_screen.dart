@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:movies/app_theme.dart';
-import 'package:movies/auth/login_screen.dart';
+import 'package:movies/shared_prefs_helper.dart';
+import 'package:movies/start_screen.dart';
 import 'package:movies/widgets/defaulte_botton.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class OnboardingScreen extends StatefulWidget {
   static const String routeName = '/OnBoarding';
+
   @override
   State<OnboardingScreen> createState() => _OnboardingScreenState();
 }
@@ -37,10 +38,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   void nextPage() async {
     if (index == 5) {
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setBool('showOnboarding', false);
+      await SharedPrefsHelper.setOnboardingSeen();
       if (!mounted) return;
-      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+      Navigator.pushReplacementNamed(context, StartScreen.routeName);
       return;
     }
     index++;

@@ -133,6 +133,8 @@ class _EditProfileState extends State<EditProfile> {
                       phone: currentUser.phone,
                       email: currentUser.email,
                       avatar: newAvatar,
+                      wishlist: currentUser.wishlist,
+                      history: currentUser.history,
                     );
                     await FirebaseService.updateUser(updatedUser);
                     userProvider.updateCurrentUser(updatedUser);

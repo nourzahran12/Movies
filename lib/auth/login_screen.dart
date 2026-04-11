@@ -158,6 +158,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               avatar: firebaseUser?.photoURL ?? '',
                               email: firebaseUser?.email ?? '',
                               phone: firebaseUser?.phoneNumber ?? '',
+                              wishlist: [],
+                              history: [],
                             ),
                           );
                           if (!context.mounted) return;

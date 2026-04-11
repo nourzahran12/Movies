@@ -6,19 +6,16 @@ import 'package:movies/auth/login_screen.dart';
 import 'package:movies/auth/register_screen.dart';
 import 'package:movies/home_screen.dart';
 import 'package:movies/onboarding_screen.dart';
-import 'package:movies/providers/watch_history_provider.dart';
 import 'package:movies/providers/movies_details_provider.dart';
 import 'package:movies/providers/user_provider.dart';
+import 'package:movies/providers/watch_history_provider.dart';
+import 'package:movies/start_screen.dart';
 import 'package:movies/tabs/profile/edit_profile.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-
-  final prefs = await SharedPreferences.getInstance();
-  final bool showOnboarding = prefs.getBool('showOnboarding') ?? true;
 
   runApp(
     MultiProvider(
@@ -27,31 +24,28 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => MovieDetailsPorvider()),
         ChangeNotifierProvider(create: (_) => WatchHistory()),
       ],
-      child: MyApp(showOnboarding: showOnboarding),
+      child: MyApp(),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
-  final bool showOnboarding;
-
-  MyApp({required this.showOnboarding});
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      initialRoute: StartScreen.routeName,
       routes: {
-        HomeScreen.routeName: (_) => HomeScreen(),
-        ForgotPasswordScreen.routeName: (_) => ForgotPasswordScreen(),
-        RegisterScreen.routeName: (_) => RegisterScreen(),
-        LoginScreen.routeName: (_) => LoginScreen(),
+        StartScreen.routeName: (_) => StartScreen(),
         OnboardingScreen.routeName: (_) => OnboardingScreen(),
+        LoginScreen.routeName: (_) => LoginScreen(),
+        RegisterScreen.routeName: (_) => RegisterScreen(),
+        ForgotPasswordScreen.routeName: (_) => ForgotPasswordScreen(),
+        HomeScreen.routeName: (_) => HomeScreen(),
         EditProfile.routeName: (_) => EditProfile(),
       },
-      initialRoute: showOnboarding
-          ? OnboardingScreen.routeName
-          : LoginScreen.routeName,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.dark,
