@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:movies/features/movies/view/widgets/similar_item.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/theme/app_theme.dart';
@@ -99,9 +100,9 @@ class _WatchHistoryTabsState extends State<WatchHistoryTabs> {
                       itemCount: favouriteMovie.favouriteMoviesList.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
-                        crossAxisSpacing: 12,
-                        mainAxisSpacing: 12,
-                        childAspectRatio: 0.65,
+                        crossAxisSpacing: 20,
+                        mainAxisSpacing: 16,
+                        childAspectRatio: 0.6,
                       ),
                       itemBuilder: (context, i) {
                         final movie = favouriteMovie.favouriteMoviesList[i];
@@ -115,55 +116,9 @@ class _WatchHistoryTabsState extends State<WatchHistoryTabs> {
                               ),
                             );
                           },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
-                              color: AppTheme.darkGray,
-                            ),
-                            child: Stack(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(16),
-                                  child: Image.network(
-                                    movie["coverImage"],
-                                    fit: BoxFit.cover,
-                                    width: double.infinity,
-                                    height: double.infinity,
-                                  ),
-                                ),
-                                Positioned(
-                                  top: 8,
-                                  right: 8,
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 8,
-                                      vertical: 4,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: Colors.black54,
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Icon(
-                                          Icons.star,
-                                          color: Colors.amber,
-                                          size: 14,
-                                        ),
-                                        SizedBox(width: 4),
-                                        Text(
-                                          movie["movieRate"].toString(),
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                          child: SimilarItem(
+                            url: movie["coverImage"],
+                            rate: movie["movieRate"].toString(),
                           ),
                         );
                       },
@@ -177,9 +132,9 @@ class _WatchHistoryTabsState extends State<WatchHistoryTabs> {
                       itemCount: history.watchHistoryMoviesList.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
-                        crossAxisSpacing: 12,
-                        mainAxisSpacing: 12,
-                        childAspectRatio: 0.65,
+                        crossAxisSpacing: 20,
+                        mainAxisSpacing: 16,
+                        childAspectRatio: 0.6,
                       ),
                       itemBuilder: (context, i) {
                         final movie = history.watchHistoryMoviesList[i];
@@ -193,55 +148,9 @@ class _WatchHistoryTabsState extends State<WatchHistoryTabs> {
                               ),
                             );
                           },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
-                              color: AppTheme.darkGray,
-                            ),
-                            child: Stack(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(16),
-                                  child: Image.network(
-                                    movie["coverImage"],
-                                    fit: BoxFit.cover,
-                                    width: double.infinity,
-                                    height: double.infinity,
-                                  ),
-                                ),
-                                Positioned(
-                                  top: 8,
-                                  right: 8,
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 8,
-                                      vertical: 4,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: Colors.black54,
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Icon(
-                                          Icons.star,
-                                          color: Colors.amber,
-                                          size: 14,
-                                        ),
-                                        SizedBox(width: 4),
-                                        Text(
-                                          movie["movieRate"].toString(),
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                          child: SimilarItem(
+                            url: movie["coverImage"],
+                            rate: movie["movieRate"].toString(),
                           ),
                         );
                       },
