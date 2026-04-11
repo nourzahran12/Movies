@@ -1,17 +1,19 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:movies/app_theme.dart';
-import 'package:movies/auth/forgot_password_screen.dart';
-import 'package:movies/auth/login_screen.dart';
-import 'package:movies/auth/register_screen.dart';
-import 'package:movies/home_screen.dart';
-import 'package:movies/onboarding_screen.dart';
-import 'package:movies/providers/movies_details_provider.dart';
-import 'package:movies/providers/user_provider.dart';
-import 'package:movies/providers/watch_history_provider.dart';
-import 'package:movies/start_screen.dart';
-import 'package:movies/tabs/profile/edit_profile.dart';
+import 'package:movies/core/theme/app_theme.dart';
 import 'package:provider/provider.dart';
+
+import 'features/auth/view/forgot_password_screen.dart';
+import 'features/auth/view/login_screen.dart';
+import 'features/auth/view/onboarding_screen.dart';
+import 'features/auth/view/register_screen.dart';
+import 'features/auth/view/start_screen.dart';
+import 'features/auth/view_model/auth_view_model.dart';
+import 'features/movies/view/home_screen.dart';
+import 'features/movies/view_model/movie_view_model.dart';
+import 'features/profile/view/edit_profile.dart';
+import 'features/profile/view_model/history_view_model.dart';
+import 'features/profile/view_model/user_view_model.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,8 +22,9 @@ Future<void> main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => UserProvider()),
-        ChangeNotifierProvider(create: (_) => MovieDetailsPorvider()),
+        ChangeNotifierProvider(create: (_) => AuthViewModel()),
+        ChangeNotifierProvider(create: (_) => UserViewModel()),
+        ChangeNotifierProvider(create: (_) => MovieViewModel()),
         ChangeNotifierProvider(create: (_) => WatchHistory()),
       ],
       child: MyApp(),
