@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:movies/core/theme/app_theme.dart';
+import 'package:movies/features/movies/view/widgets/movie_section.dart';
 
 import '../../../data/api/api_service.dart';
 import '../../../data/models/movie_model.dart';
@@ -16,17 +17,25 @@ class HomeTab extends StatefulWidget {
 class _HomeTabState extends State<HomeTab> {
   int currentIndex = 0;
   late Future<List<Movie>> moviesFuture;
+  late Future<List<Movie>> actionMovies;
+  late Future<List<Movie>> animationMovies;
+  late Future<List<Movie>> dramaMovies;
+  late Future<List<Movie>> sciFiMovies;
+  late Future<List<Movie>> horrorMovies;
 
   @override
   void initState() {
     super.initState();
     moviesFuture = ApiService.fetchMovies();
+    actionMovies = ApiService.fetchMoviesByGenre('Action');
+    animationMovies = ApiService.fetchMoviesByGenre('Animation');
+    dramaMovies = ApiService.fetchMoviesByGenre('Drama');
+    sciFiMovies = ApiService.fetchMoviesByGenre('Sci-Fi');
+    horrorMovies = ApiService.fetchMoviesByGenre('Horror');
   }
 
   @override
   Widget build(BuildContext context) {
-    TextTheme textTheme = Theme.of(context).textTheme;
-
     return Scaffold(
       backgroundColor: AppTheme.black,
       body: FutureBuilder<List<Movie>>(
@@ -34,9 +43,7 @@ class _HomeTabState extends State<HomeTab> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: LoadingIndicator());
-          } else if (snapshot.hasError ||
-              snapshot.data == null ||
-              snapshot.data!.isEmpty) {
+          } else if (snapshot.hasError || !snapshot.hasData || snapshot.data!.isEmpty) {
             return const Center(
               child: Text(
                 "Error loading movies",
@@ -61,7 +68,6 @@ class _HomeTabState extends State<HomeTab> {
                         child: Image.network(
                           movies[currentIndex].largeCoverImage,
                           fit: BoxFit.cover,
-                          // معالج الخطأ للخلفية المتغيرة في الهوم
                           errorBuilder: (context, error, stackTrace) {
                             return Container(
                               color: AppTheme.black,
@@ -77,7 +83,6 @@ class _HomeTabState extends State<HomeTab> {
                         ),
                       ),
                     ),
-                    // Gradient Overlay
                     Container(
                       height: 620,
                       width: double.infinity,
@@ -94,15 +99,12 @@ class _HomeTabState extends State<HomeTab> {
                         ),
                       ),
                     ),
-
                     Center(
                       child: Padding(
                         padding: const EdgeInsets.only(top: 40),
                         child: Image.asset('assets/images/Available Now.png'),
                       ),
                     ),
-
-                    // 1. Carousel Slider
                     Padding(
                       padding: const EdgeInsets.only(top: 160),
                       child: CarouselSlider.builder(
@@ -114,7 +116,7 @@ class _HomeTabState extends State<HomeTab> {
                               MaterialPageRoute(
                                 builder: (context) => MoviesDetailsScreen(
                                   movieId: movies[index].id,
-                                ), // استخدام .id
+                                ),
                               ),
                             );
                           },
@@ -122,9 +124,7 @@ class _HomeTabState extends State<HomeTab> {
                             width: 200,
                             child: SimilarItem(
                               url: movies[index].largeCoverImage,
-                              // استخدام .largeCoverImage
-                              rate: movies[index].rating
-                                  .toString(), // استخدام .rating
+                              rate: movies[index].rating.toString(),
                             ),
                           ),
                         ),
@@ -141,7 +141,6 @@ class _HomeTabState extends State<HomeTab> {
                         ),
                       ),
                     ),
-
                     Positioned(
                       top: 480,
                       left: 35,
@@ -149,65 +148,12 @@ class _HomeTabState extends State<HomeTab> {
                     ),
                   ],
                 ),
-
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 5,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Action',
-                        style: textTheme.titleMedium!.copyWith(
-                          color: AppTheme.white,
-                        ),
-                      ),
-                      Icon(
-                        Icons.arrow_right_alt,
-                        size: 20,
-                        color: AppTheme.primary,
-                      ),
-                    ],
-                  ),
-                ),
-
-                // 2. Horizontal ListView
-                SizedBox(
-                  height: 240,
-                  child: ListView.separated(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 5,
-                      vertical: 10,
-                    ),
-                    scrollDirection: Axis.horizontal,
-                    itemCount: movies.length,
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(width: 10),
-                    itemBuilder: (context, index) => GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => MoviesDetailsScreen(
-                              movieId: movies[index].id,
-                            ), // استخدام .id
-                          ),
-                        );
-                      },
-                      child: SizedBox(
-                        width: 150,
-                        child: SimilarItem(
-                          url: movies[index]
-                              .largeCoverImage, // استخدام .largeCoverImage
-                          rate: movies[index].rating
-                              .toString(), // استخدام .rating
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                MovieSection(title: 'Action', future: actionMovies),
+                MovieSection(title: 'Animation', future: animationMovies),
+                MovieSection(title: 'Drama', future: dramaMovies),
+                MovieSection(title: 'Sci-Fi', future: sciFiMovies),
+                MovieSection(title: 'Horror', future: horrorMovies),
+                SizedBox(height: 30),
               ],
             ),
           );
